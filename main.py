@@ -1,41 +1,69 @@
-#Celcius to Fahrenheit
+#PPPPOS
 from tkinter import *
 
-#convert functions
-def convertToC():
-  f = int(input.get())
-  output.delete(0.0, END)
-  conversion = int((f - 32) * 5 / 9)
-  output.insert(END, conversion)
+#delivery or no?
+delivery = False
 
-def convertToF():
-  c = int(input.get())
-  output.delete(0.0, END)
-  conversion = int(9 / 5 * c + 32)
-  output.insert(END, conversion)
+#global variables
+cust_name = ''
+cust_phone = ''
+cust_address = ''
 
-#main
-window = Tk()
-window.title('Celcius to Fahrenheit')
-window.configure(background='#333333')
+#if delivery is clicked
+def toDelivery():
+  global delivery
+  delivery = True
+  toCustomerInfo()
 
-#create title label
-Label (window, text='Celcius to Fahrenheit', bg='#333333', fg='#EEEEEE', font='none 20 bold') .grid(row=0, column=0, sticky=W)
+#customer info window
+def toCustomerInfo():
+  global delivery
+  global cust_address
 
-#create tip label
-Label (window, text='Enter value in Celcius, and submit to see conversion result to Fahrenheit', bg='#333333', fg='#EEEEEE', font='none 12', wraplength=300) .grid(row=1, column=0, sticky=W)
+  if delivery == False:
+    cust_address = 'CARRYOUT'
 
-#create text entry box
-input = Entry(window, width=20, bg='#EEEEEE', fg='#333333')
-input.grid(row=2, column=0, sticky=W)
+  #window for name and number
+  nameAndNumber = Tk()
+  nameAndNumber.title('PPPPOS Customer Info')
+  nameAndNumber.configure(bg='red')
+  nameAndNumber.geometry('1920x1080')
 
-#convert button
-Button(window, text='C to F', width=0, command=convertToF) .grid(row=3, column=0, sticky=W)
-Button(window, text='F to C', width=0, command=convertToC) .grid(row=3, column=1, sticky=W)
+  #name input
+  Label (nameAndNumber, text='Name:', bg='red', fg='black', font='none 32') .place(relx=0.5, rely=0.2, anchor=CENTER)
+  name = Text(nameAndNumber, width=50, height=2, bg='white', fg='black', font='none 32')
+  name.place(relx=0.5, rely=0.3, anchor=CENTER)
 
-#output label
-output = Text(window, width=5, height=1, bg='#EEEEEE', fg='#333333', font='none 12 bold')
-output.grid(row=4, column=0, sticky=W)
+  #phone input
+  Label (nameAndNumber, text='Phone:', bg='red', fg='black', font='none 32') .place(relx=0.5, rely=0.4, anchor=CENTER)
+  phone = Text(nameAndNumber, width=50, height=2, bg='white', fg='black', font='none 32')
+  phone.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+  #if delivery is selected, add address box
+  if delivery == True:
+    Label (nameAndNumber, text='Address:', bg='red', fg='black', font='none 32') .place(relx=0.5, rely=0.6, anchor=CENTER)
+    address = Text(nameAndNumber, width=50, height=2, bg='white', fg='black', font='none 32')
+    address.place(relx=0.5, rely=0.7, anchor=CENTER)
+
+  #submit button
+  Button (nameAndNumber, text='SUBMIT', bg='white', fg='black', font='none 32 bold', height=2) .place(relx=0.5, rely=0.85, anchor=CENTER)
+
+  #run windows
+  nameAndNumber.mainloop()
+
+#carry-out or deliery window
+start = Tk()
+start.title('PPPPOS')
+start.configure(bg='red')
+start.geometry('1920x1080')
+
+#carryout button
+carryOutButton = Button(start, command=toCustomerInfo, text='CARRYOUT', font='none 32 bold', bg='white', fg='black', height=5) 
+carryOutButton.place(relx=0.35, rely=0.5, anchor=CENTER)
+
+#delivery button
+deliveryButton = Button(start, command=toDelivery, text='DELIVERY', font='none 32 bold', bg='white', fg='black', height=5) 
+deliveryButton.place(relx=0.65, rely=0.5, anchor=CENTER)
 
 #run window
-window.mainloop()
+start.mainloop()
